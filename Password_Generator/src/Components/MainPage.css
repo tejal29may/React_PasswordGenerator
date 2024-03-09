@@ -1,0 +1,114 @@
+body{
+    background-image: url("https://images.pexels.com/photos/5475779/pexels-photo-5475779.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1");
+background-position: center;
+background-size: cover;
+background-repeat: no-repeat;
+
+/* background: transparent; */
+}
+
+.Main_Container{
+    width: 40%;
+    /* height: 350px; */
+    padding: 40px 20px;
+    /* border: 3px solid blue; */
+    margin: 8% auto;
+    text-align: center;
+    position: sticky;
+    top: 0px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    /* background-color: #dfcdc3; */
+    background: linear-gradient(132deg, rgb(255, 206, 236) 0.00%, rgb(151, 150, 240) 100.00%);
+    /* opacity: 0.6; */
+    /* background: transparent; */
+    /* border-radius: 100% 0% 99% 1% / 31% 69% 31% 69% ; */
+    border-radius: 100px 15px ;
+    border: 7px solid blue;
+   
+}
+.output{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 3%;
+    align-items: center;
+    margin-bottom: 3%;
+}
+.output p{
+    width: 40px;
+    height: 40px;
+    border: 2px solid red;
+   
+}
+.output input{
+    width: 400px;
+    height: 40px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.passselect{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 2%;
+    margin-bottom: 5%;
+}
+.passselect span{
+    font-size: 22px;
+    color: brown;
+    font-weight: bold;
+}
+.passselect input{
+    height: 25px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.choices{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3%;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 5%;
+    font-size: 20px;
+}
+.pass{
+    width: 200px;
+    padding: 10px 10px;
+    background-color: rgb(121, 147, 230);
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid blue;
+   
+}
+.copy{
+    border: none;
+    background-color: transparent;
+}
+.Copiedmsg{
+    text-align: center;
+   background-color: aquamarine;
+   width: 15%;
+   margin: 2px auto;
+  
+   
+}
+input{
+    background-color: whitesmoke;
+   box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+    font-size: 22px;
+    border-radius: 6px;
+}
+
+@media screen and (max-width:455px){
+    .Main_Container{
+        width: 325px;
+    }
+    .output input{
+        width: 80%;
+    }
+}
