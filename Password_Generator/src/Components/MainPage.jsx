@@ -66,7 +66,7 @@ function MainPage() {
       {mode ? (
         <div className="Main_Container animate__animated animate__fadeInDown">
           <h1 style={{ fontFamily: "cursive", color: "purple" }}>
-            Password Generator🔑
+            Random Password Generator🔑
           </h1>
           <div className="output">
             <input type="text" value={password} disabled />
@@ -157,7 +157,7 @@ function MainPage() {
       ) : (
         <div className="dark animate__animated animate__fadeInDown">
           <h1 style={{ fontFamily: "cursive", color: "purple" }}>
-            Password Generator🔑
+            Random Password Generator🔑
           </h1>
           <div className="output">
             <input type="text" value={password} disabled />
