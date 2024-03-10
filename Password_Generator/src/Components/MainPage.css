@@ -151,6 +151,11 @@ input{
     justify-content: center;
     align-items: center;
 }
+.buttons button:first-child:hover{
+    background-color: rgb(186, 227, 186);
+    border: 2px solid green;
+    color: black;
+}
 
 @media screen and (max-width:455px){
     .Main_Container{
