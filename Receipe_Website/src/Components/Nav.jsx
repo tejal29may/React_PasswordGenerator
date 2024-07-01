@@ -7,31 +7,48 @@ import SideBar from "./SideBar";
 import axios from "axios";
 import app from "../Screens/Firebase";
 import { getAuth, signOut } from "firebase/auth";
+
+import userContext from "./UserContext";
+import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
+
+
+
 const auth = getAuth();
 function Nav() {
-  const[sidebarDisplay,setSidebarDisplay]=useState(false)
+  const navigate = useNavigate();
+  const [sidebarDisplay, setSidebarDisplay] = useState(false);
   const [products, setProducts] = useState([]);
   const [input, setInput] = useState();
- const[onsignOut,setOnsignOut]=useState(false)
+  const [onsignOut, setOnsignOut] = useState(false);
+ const{setUser,name}=useContext(userContext)
+  
 
+
+
+
+console.log("logged name is ",name);
   async function logout() {
     try {
       const result = await signOut(auth);
-      console.log(result);
-     setOnsignOut(true)
+      setUser({});
+      navigate("/");
       alert("User signed out");
+      // alert("User signed out");
     } catch (err) {
       console.log(err);
       alert(err.message);
     }
   }
 
+  
+
   async function searchProducts() {
     const result = await axios.get(
       `https://www.themealdb.com/api/json/v1/1/search.php?s=${input}`
     );
     setProducts(result.data.meals);
-    console.log("food search is : ",input);
+    console.log("food search is : ", input);
   }
   return (
     <>
@@ -51,18 +68,26 @@ function Nav() {
               <path d="M12 3L4 9v12h16V9l-8-6zm.5 9.5c0 .83-.67 1.5-1.5 1.5v4h-1v-4c-.83 0-1.5-.67-1.5-1.5v-3h1v3h.5v-3h1v3h.5v-3h1v3zM15 18h-1v-3.5h-1v-3c0-1.1.9-2 2-2V18z"></path>
             </svg>
             <p>
-              <NavLink to="/Home" style={{textDecoration:"none", color:"white"}}><span>FastEat.</span></NavLink>
+              <NavLink
+                to="/Home"
+                style={{ textDecoration: "none", color: "white" }}
+              >
+                <span>FastEat.</span>
+              </NavLink>
             </p>
             <div className="circle">
-              
-              <NavLink to="/"><h6 onClick={logout}>Log Out</h6></NavLink>
-           
+              {/* <NavLink to="/"><h6 onClick={logout}>Log Out</h6></NavLink> */}
+              <h6 onClick={logout}>Log Out</h6>
             </div>
-     
+            <p>Hello {name}</p>
+
           </div>
-          <div className="right" onClick={()=>{
-            setSidebarDisplay(!sidebarDisplay)
-          }}>
+          <div
+            className="right"
+            onClick={() => {
+              setSidebarDisplay(!sidebarDisplay);
+            }}
+          >
             <svg
               stroke="currentColor"
               fill="white"
@@ -76,46 +101,50 @@ function Nav() {
             </svg>
           </div>
         </div>
-       
-        <div style={{display:sidebarDisplay?"":"none"}}>
-        <SideBar sidebarDisplay={sidebarDisplay} setSidebarDisplay={setSidebarDisplay}/>
+
+        <div style={{ display: sidebarDisplay ? "" : "none" }}>
+          <SideBar
+            sidebarDisplay={sidebarDisplay}
+            setSidebarDisplay={setSidebarDisplay}
+          />
         </div>
-       
+
         <div className="lower">
-            <div className="content">
-                <div className="inputField">
-                    <input type="text" placeholder="Search Recipes Here..." onChange={(e) => {
-          setInput(e.target.value);
-        }}/>
-                    <button onClick={searchProducts}><BiSearch style={{color:"white", fontSize:"25px"}}/></button>
-                </div>
-                <h1>What are your favorite cuisines?</h1>
-                <p>personalize your experience</p>
+          <div className="content">
+            <div className="inputField">
+              <input
+                type="text"
+                placeholder="Search Recipes Here..."
+                onChange={(e) => {
+                  setInput(e.target.value);
+                }}
+              />
+              <button onClick={searchProducts}>
+                <BiSearch style={{ color: "white", fontSize: "25px" }} />
+              </button>
             </div>
+            <h1>What are your favorite cuisines?</h1>
+            <p>personalize your experience</p>
+          </div>
         </div>
-     
       </div>
-     
-      {
-        input?<div className="cards">
-        {
-          products.map((ele, index, array) => {
+
+      {input ? (
+        <div className="cards">
+          {products.map((ele, index, array) => {
             return (
               <div className="card" key={index}>
-                <NavLink to={`/SubCategory/${ele.idMeal}`} >
-                <h3>{ele.strMeal}</h3>
-                <img src={ele.strMealThumb} alt="" />
+                <NavLink to={`/SubCategory/${ele.idMeal}`}>
+                  <h3>{ele.strMeal}</h3>
+                  <img src={ele.strMealThumb} alt="" />
                 </NavLink>
-                
               </div>
             );
-            })
-          }
-        
-      </div>:""
-      }
-      
-        
+          })}
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }

@@ -5,12 +5,16 @@ import { useState } from "react";
 
 import axios from "axios";
 import { NavLink } from "react-router-dom";
+import userContext from "./UserContext";
+import { useContext } from "react";
 
 function Category() {
+  const { setcategorydata } = useContext(userContext);
+
   const [loading, setLoading] = useState(false);
   const [category, setCategory] = useState([]);
   // const [loading, setLoading] = useState(false);
-console.log("category",category);
+  console.log("category", category);
   async function fetchData() {
     try {
       const response = await axios(
@@ -20,6 +24,7 @@ console.log("category",category);
       console.log(category);
       setCategory(response.data.categories);
       setLoading(false);
+      // setcategorydata(response.data.categories)
     } catch {
       setLoading(false);
     }
@@ -40,11 +45,10 @@ console.log("category",category);
             category.map((ele, index, array) => {
               return (
                 <div className="card" key={index}>
-                  <NavLink to={`/SubCategory/${ele.strCategory}`} >
-                  <h3>{ele.strCategory}</h3>
-                  <img src={ele.strCategoryThumb} alt="" />
+                  <NavLink to={`/SubCategory/${ele.strCategory}`}>
+                    <h3>{ele.strCategory}</h3>
+                    <img src={ele.strCategoryThumb} alt="" />
                   </NavLink>
-                  
                 </div>
               );
             })

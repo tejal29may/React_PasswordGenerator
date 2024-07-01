@@ -1,20 +1,35 @@
 import "./SignIn.css";
 import React, { useState } from "react";
 import app from "../Screens/Firebase";
+import { db } from "../Screens/Firebase";
+import { v4 as uuidv4 } from "uuid";
+
+import { doc, setDoc, getDoc } from "firebase/firestore";
 
 import "./SignIn.css";
+
+import userContext from "./UserContext";
+import { useContext } from "react";
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 const auth = getAuth();
 function SignIn() {
+  const { setUser, setName, name } = useContext(userContext);
+
   const [email, setEmail] = useState("");
   const [password, setPass] = useState("");
-  const [isvalid, setIsvalid] = useState(false);
-  const[user,setUser]=useState({})
+  // const [name, setName] = useState("");
+
+  // const [user, setUser] = useState({});
+
+  const navigate = useNavigate();
+
   async function handle() {
     try {
       const result = await createUserWithEmailAndPassword(
@@ -23,11 +38,31 @@ function SignIn() {
         password
       );
       console.log(result);
-
       alert("User created");
+
+      console.log(result.user.providerData[0].uid);
+
+      await setDoc(doc(db, "users", uuidv4()), {
+        Name: name,
+      });
+
+      console.log("name setter", name);
+
+      await getBlog();
     } catch (err) {
       console.log(err);
       alert(err.message);
+    }
+  }
+
+  async function getBlog() {
+    const docRef = doc(db, "users", uuidv4());
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      console.log("No such document!");
     }
   }
 
@@ -35,16 +70,11 @@ function SignIn() {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       console.log(result);
-      setIsvalid(true);
-    //   alert("User successfully sign in");
-	  setUser({
-		email:result.user.email,
-		password:result.user.password
-	  })
-	  console.log(user);
+      navigate("/Home");
+      console.log("home section");
+      console.log(user);
     } catch (err) {
-      console.log(err);
-      alert("Not a valid credentials, Try again");
+      console.log("error", err);
     }
   }
   return (
@@ -56,7 +86,17 @@ function SignIn() {
           <label for="chk" aria-hidden="true">
             Sign up
           </label>
-          <input type="text" placeholder="User name" className="input3" />
+
+          <input
+            type="text"
+            placeholder="User name"
+            className="input3"
+            value={name}
+            onChange={(e) => {
+              setName(e.target.value);
+            }}
+          />
+
           <input
             type="email"
             placeholder="Email"
@@ -108,14 +148,6 @@ function SignIn() {
           />
 
           <button onClick={signInFun}>Login</button>
-          {isvalid ? (
-            <NavLink to="/Home">
-              <button onClick={signInFun}>Next</button>
-            </NavLink>
-          ) : (
-            ""
-          )}
-		  
         </div>
       </div>
     </>

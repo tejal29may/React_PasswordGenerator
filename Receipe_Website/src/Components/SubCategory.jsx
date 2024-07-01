@@ -3,14 +3,27 @@ import Nav from "./Nav";
 import "./SubCategory.css";
 import axios from "axios";
 import { NavLink, useParams } from "react-router-dom";
+import userContext from "./UserContext";
+import { useContext } from "react";
+
+
 function SubCategory({category,setCategory}) {
+
+const{categoryData}=useContext(userContext)
+
+
+console.log("category data",categoryData);
   const param = useParams();
   const [SubCategory, setSubCategory] = useState([]);
-  console.log("params", param);
+  console.log("params", param.SubCategory);
+  
+    console.log("desc",param.strCategoryDescription);
+  
   async function fetchSubCategoryProduct() {
     const result = await axios.get(
       `https://www.themealdb.com/api/json/v1/1/filter.php?c=${param.SubCategory}`
     );
+   
     setSubCategory(result.data.meals);
   }
   useEffect(() => {
@@ -21,9 +34,19 @@ function SubCategory({category,setCategory}) {
   return (
     <>
       <Nav />
+
       <div className="details">
         <h2>{param.SubCategory}</h2>
-        {/* <p>{category.strCategoryDescription}</p> */}
+        
+        {/* {
+           param.SubCategory===categoryData.strCategory? <p>{categoryData.strCategoryDescription}</p>:""
+      
+           
+        } */}
+
+         <p>{param.strCategoryDescription}</p>
+       
+       
       </div>
       <div className="main">
         <p>Meals</p>

@@ -49,9 +49,11 @@ function SideBar({setSidebarDisplay,sidebarDisplay}) {
                 </>
               );
             })}
+            <NavLink to="/savedItems"><button>saved items</button></NavLink> 
           </ul>
         </div>
       </div>
+     
     </>
   );
 }
